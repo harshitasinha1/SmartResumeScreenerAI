@@ -1,13 +1,19 @@
-from flask import Flask, request, jsonify
+import os
+import re
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import PyPDF2
 import docx2txt
 import spacy
 from sentence_transformers import SentenceTransformer, util
-import re
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=".", static_url_path="")
 CORS(app)
+
+
+@app.route("/")
+def index():
+    return send_from_directory(".", "index.html")
 
 
 # ============================================================
@@ -1531,12 +1537,15 @@ def analyze():
 
 if __name__ == "__main__":
 
+    port = int(os.environ.get("PORT", 8080))
+
     print(
-        "Step 3/3: Server is starting "
-        "on http://127.0.0.1:8080"
+        f"Step 3/3: Server is starting "
+        f"on http://0.0.0.0:{port}"
     )
 
     app.run(
-        debug=True,
-        port=8080
+        host="0.0.0.0",
+        port=port,
+        debug=False
     )
