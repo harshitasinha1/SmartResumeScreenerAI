@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Smart Screener</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Decorative blurred background shapes for the glass effect -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <header>
+            <div class="header-top">
+
+                <h1>
+                    <i class="fas fa-robot"></i>
+                    SmartScreener<span>AI</span>
+                </h1>
+
+                <button id="theme-toggle" class="theme-btn">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+            </div>
+
+            <p>Efficiently match candidates to job roles using NLP</p>
+        </header>
+
+
+        <main>
+
+            <!-- INPUT SECTION -->
+            <section class="input-section">
+
+                <div class="card">
+
+                    <h3>
+                        <i class="fas fa-file-alt"></i>
+                        Job Description
+                    </h3>
+
+                    <textarea
+                        id="job-description"
+                        placeholder="Paste the full job description here..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        Upload Resumes
+                    </h3>
+
+                    <div class="upload-area" id="drop-zone">
+
+                        <input
+                            type="file"
+                            id="file-input"
+                            multiple
+                            accept=".pdf,.docx"
+                        >
+
+                        <p>
+                            Drag & drop resumes or <span>Browse</span>
+                        </p>
+
+                        <small>
+                            Supported formats: PDF, DOCX
+                        </small>
+
+                    </div>
+
+                    <ul id="file-list" class="file-list"></ul>
+
+                </div>
+
+
+                <button id="analyze-btn" class="main-btn">
+
+                    <i class="fas fa-bolt"></i>
+                    Analyze Resumes
+
+                </button>
+
+            </section>
+
+
+            <!-- RESULTS SECTION -->
+            <section class="results-section" id="results-section">
+
+                <!-- SCREENING RESULTS -->
+                <div class="card">
+
+                    <h3>
+                        <i class="fas fa-poll-h"></i>
+                        Screening Results
+                    </h3>
+
+                    <div class="table-container">
+
+                        <table id="results-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Candidate Name</th>
+                                    <th>Match Score</th>
+                                    <th>Status</th>
+                                    <th>Details</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="results-body"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ANALYTICS -->
+                <div class="card">
+
+                    <h3>
+                        <i class="fas fa-chart-bar"></i>
+                        Analytics
+                    </h3>
+
+                    <canvas id="scoreChart" height="100"></canvas>
+
+                    <canvas
+                        id="statusChart"
+                        height="100"
+                        style="margin-top:20px;"
+                    ></canvas>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- JavaScript loaded only once -->
+    <script src="script.js"></script>
+
+</body>
+</html>
