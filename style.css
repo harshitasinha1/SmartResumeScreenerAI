@@ -1,0 +1,692 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ============================================================
+   TOKENS
+   ============================================================ */
+
+:root {
+    /* Brand */
+    --primary: #10b981;
+    --primary-dark: #047857;
+    --primary-light: #6ee7b7;
+
+    /* Background (light) */
+    --bg-color: #eafbf1;
+    --blob-a: #6ee7b7;
+    --blob-b: #34d399;
+
+    /* Glass surfaces (light) */
+    --card-bg: rgba(255, 255, 255, 0.45);
+    --card-border: rgba(255, 255, 255, 0.6);
+    --card-shadow: rgba(16, 60, 40, 0.12);
+
+    /* Text (light) */
+    --text-main: #0b2e1f;
+    --text-muted: #4f6b5c;
+
+    /* Inputs (light) */
+    --input-bg: rgba(255, 255, 255, 0.55);
+    --input-border: rgba(11, 46, 31, 0.18);
+    --border-color: rgba(11, 46, 31, 0.14);
+
+    /* Status */
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+
+    /* Skeleton */
+    --skeleton-bg: rgba(11, 46, 31, 0.08);
+    --skeleton-shimmer: rgba(255, 255, 255, 0.6);
+}
+
+body.dark-mode {
+    --bg-color: #071b12;
+    --blob-a: #065f46;
+    --blob-b: #0f766e;
+
+    --card-bg: rgba(15, 35, 27, 0.5);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-shadow: rgba(0, 0, 0, 0.4);
+
+    --text-main: #eafbf1;
+    --text-muted: #9db8ac;
+
+    --input-bg: rgba(7, 27, 18, 0.55);
+    --input-border: rgba(255, 255, 255, 0.14);
+    --border-color: rgba(255, 255, 255, 0.1);
+
+    --skeleton-bg: rgba(255, 255, 255, 0.06);
+    --skeleton-shimmer: rgba(255, 255, 255, 0.16);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0;
+    padding: clamp(30px, 4vw, 60px) 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Decorative blurred blobs behind everything — this is what the
+   glass cards blur. Fixed so they stay put while content scrolls. */
+.orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.55;
+    z-index: -1;
+    pointer-events: none;
+    transition: background 0.4s ease;
+}
+
+.orb-1 {
+    width: 420px;
+    height: 420px;
+    top: -120px;
+    left: -100px;
+    background: var(--blob-a);
+}
+
+.orb-2 {
+    width: 380px;
+    height: 380px;
+    bottom: -100px;
+    right: -80px;
+    background: var(--blob-b);
+}
+
+.orb-3 {
+    width: 260px;
+    height: 260px;
+    top: 40%;
+    left: 60%;
+    background: var(--blob-a);
+    opacity: 0.35;
+}
+
+.container {
+    width: 100%;
+    max-width: min(94vw, 1280px);
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: min(94vw, 1280px);
+    margin: 0 auto;
+}
+
+header h1 {
+    font-size: clamp(2.2rem, 1.6rem + 1.8vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    color: var(--text-main);
+}
+
+header h1 span {
+    color: var(--primary);
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: clamp(1rem, 0.9rem + 0.3vw, 1.2rem);
+}
+
+.theme-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    color: var(--text-main);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s ease, background 0.3s ease;
+}
+
+.theme-btn:hover {
+    transform: scale(1.08);
+    background: var(--primary);
+    color: white;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.input-section,
+.results-section {
+    width: 100%;
+}
+
+.results-section {
+    display: none;
+    flex-direction: column;
+}
+
+.results-section .card {
+    width: 100%;
+}
+
+/* Results cards get a bit more room to breathe on wide screens */
+@media (min-width: 900px) {
+    .results-section .card {
+        padding: 36px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card {
+        padding: 34px;
+    }
+
+    textarea {
+        height: 220px;
+    }
+}
+
+/* ============================================================
+   GLASS CARD
+   ============================================================ */
+
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--card-border);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px var(--card-shadow);
+    margin-bottom: 25px;
+    width: 100%;
+    color: var(--text-main);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px var(--card-shadow);
+}
+
+h3 {
+    margin-top: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+h3 i {
+    color: var(--primary);
+}
+
+/* ============================================================
+   FORM ELEMENTS
+   ============================================================ */
+
+textarea {
+    width: 100%;
+    height: 180px;
+    background-color: var(--input-bg);
+    color: var(--text-main);
+    border: 1.5px solid var(--input-border);
+    border-radius: 14px;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    outline: none;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+textarea::placeholder {
+    color: var(--text-muted);
+}
+
+textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+}
+
+.upload-area {
+    border: 1.5px dashed var(--input-border);
+    padding: 40px;
+    text-align: center;
+    border-radius: 16px;
+    cursor: pointer;
+    position: relative;
+    background: var(--input-bg);
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: var(--primary);
+    background: rgba(16, 185, 129, 0.08);
+}
+
+.upload-area.drag-active {
+    border-color: var(--primary);
+    background: rgba(16, 185, 129, 0.14);
+    transform: scale(1.01);
+}
+
+.upload-area p {
+    color: var(--text-main);
+    font-weight: 500;
+    margin: 0;
+}
+
+.upload-area span {
+    color: var(--primary-dark);
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+.upload-area small {
+    color: var(--text-muted);
+}
+
+#file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.main-btn {
+    width: 100%;
+    max-width: 400px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: block;
+    margin: 10px auto 40px auto;
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+}
+
+.main-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(16, 185, 129, 0.45);
+}
+
+.main-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ============================================================
+   FILE LIST
+   ============================================================ */
+
+.file-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.file-list li {
+    background: var(--input-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-main);
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(6px);
+}
+
+/* ============================================================
+   RESULTS TABLE
+   ============================================================ */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    padding: 14px 15px;
+    text-align: left;
+    border-radius: 8px;
+}
+
+td {
+    padding: 14px 15px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* ============================================================
+   SCORE PILLS + BADGES
+   ============================================================ */
+
+.score-pill {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--text-muted);
+}
+
+.score-pill.high-score {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--primary-dark);
+}
+
+.score-pill.med-score {
+    background: rgba(245, 158, 11, 0.18);
+    color: #92400e;
+}
+
+body.dark-mode .score-pill.med-score {
+    color: #fbbf24;
+}
+
+.status-badge {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--primary-dark);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+body.dark-mode .status-badge {
+    color: var(--primary-light);
+}
+
+.top-match-badge {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: white;
+    padding: 4px 9px;
+    border-radius: 6px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    vertical-align: middle;
+}
+
+.details-btn {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: var(--primary-dark);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.details-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+body.dark-mode .details-btn {
+    color: var(--primary-light);
+}
+
+/* ============================================================
+   SKELETON LOADING
+   ============================================================ */
+
+.skeleton-row td {
+    padding: 20px 15px;
+}
+
+.skeleton-box {
+    height: 15px;
+    background: var(--skeleton-bg);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-box::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, var(--skeleton-shimmer), transparent);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    100% { transform: translateX(100%); }
+}
+
+/* ============================================================
+   CHARTS
+   ============================================================ */
+
+#scoreChart {
+    max-width: 100%;
+}
+
+#statusChart {
+    max-width: 280px;
+    margin: 20px auto 0;
+    display: block;
+}
+
+/* ============================================================
+   CANDIDATE ROWS + INLINE ACCORDION
+   ============================================================ */
+
+.candidate-row td {
+    vertical-align: middle;
+}
+
+.details-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.details-btn i {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+/* The accordion row sits directly under its candidate row.
+   It has no border/padding of its own so it's invisible when
+   collapsed; .accordion-content is what actually animates. */
+.details-row td {
+    padding: 0;
+    border-bottom: none;
+}
+
+.details-row.open td {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.accordion-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 4px 4px 20px 4px;
+}
+
+.skills-block h4 {
+    margin: 0 0 10px 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.skills-block h4 i {
+    color: var(--primary);
+}
+
+.skills-block.missing h4 i {
+    color: var(--danger);
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.skill-tag {
+    display: inline-block;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--primary-dark);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+body.dark-mode .skill-tag {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--primary-light);
+}
+
+.skill-tag-missing {
+    background: rgba(239, 68, 68, 0.12);
+    color: #b91c1c;
+}
+
+body.dark-mode .skill-tag-missing {
+    background: rgba(239, 68, 68, 0.18);
+    color: #fca5a5;
+}
+
+.no-skills {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+    .accordion-inner {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 600px) {
+    body {
+        padding: 24px 14px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .main-btn {
+        padding: 15px;
+        font-size: 1rem;
+    }
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
